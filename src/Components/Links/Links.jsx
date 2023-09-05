@@ -20,10 +20,14 @@ const LinksArray = [
 
 function Links() {
   const location = useLocation();
+
   return (
     <ul className="border-b-solid space-x-2 border-b-2 border-b-gray-400 py-3">
       {LinksArray.map(({ path, text, icon }) => {
-        const isActivePage = path === location.pathname;
+        const isActivePage =
+          path === location.pathname ||
+          (path === "/users" && location.pathname === "/");
+
         return (
           <Link key={text} to={path} className="inline-block">
             <Button
