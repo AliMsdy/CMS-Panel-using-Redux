@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-light: #f6f6f6;
+  --bg-dark: #051922;
+
+  /* Fonts */
+  --font-primary: "gandom", "nazanin";
+  --font-secondry: "koodak", "yekan";
+  --font-latin: "Comfortaa", cursive;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  /* outline: 1px solid red; */
+  font-family: var(--font-primary) !important;
+}
+
+body {
+  height: 100vh;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-default);
+  background-color: var(--bg-light);
+}
+
+*[lang="en"] {
+  font-family: var(--font-latin) !important;
+}
+
+/* Fonts */
+
+/* test fonts (dadeh negar) */
+@font-face {
+  font-family: "Kalameh-Bold";
+  src: url("https://anima-uploads.s3.amazonaws.com/5d591f67586d6990d7dc01da/Kalameh Bold.ttf")
+    format("truetype");
+}
+
+@font-face {
+  font-family: "Kalameh-Regular";
+  src: url("https://anima-uploads.s3.amazonaws.com/projects/5fb236f9415d6ede8880caab/fonts/kalameh-regular.ttf")
+    format("truetype");
+}
+
+/* end of test fonts */
+
+@font-face {
+  font-family: "koodak";
+  src:
+    url("./assets/fonts/KoodakBold.eot?#") format("eot"),
+    url("./assets/fonts/KoodakBold.ttf") format("truetype"),
+    url("./assets/fonts/KoodakBold.woff") format("woff");
+}
+@font-face {
+  font-family: "yekan";
+  src:
+    url("./assets/fonts/Yekan.eot?#") format("eot"),
+    url("./assets/fonts/Yekan.ttf") format("truetype"),
+    url("./assets/fonts/Yekan.woff") format("woff");
+}
+@font-face {
+  font-family: "nazanin";
+  src:
+    url("./assets/fonts/Nazanin.eot") format("eot"),
+    url("./assets/fonts/Nazanin.ttf") format("truetype"),
+    url("./assets/fonts/Nazanin.woff") format("woff");
+}
+@font-face {
+  font-family: "gandom";
+  src:
+    url("./assets/fonts/Gandom.eot") format("eot"),
+    url("./assets/fonts/Gandom.ttf") format("truetype"),
+    url("./assets/fonts/Gandom.woff") format("woff");
+}
