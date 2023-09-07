@@ -1,7 +1,7 @@
 function UploaderBox({ imgSrc, isBanner, title }) {
   return (
     <div
-      className={`relative flex justify-center border-2 border-[#133141] p-4 before:absolute before:left-[20px] before:top-[-14px] before:bg-white before:px-4 before:content-['${title}'] md:h-[300px] ${
+      className={`relative flex justify-center border-2 border-[#133141] p-4 before:absolute before:left-[20px] before:top-[-14px] before:bg-white before:px-4 before:content-['${title}'] md:h-[300px]  ${
         isBanner && "md:w-[80%]"
       }`}
     >

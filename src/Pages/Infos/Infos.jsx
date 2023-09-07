@@ -37,7 +37,7 @@ function Infos() {
           </a>
         </div>
         {/* form Inputs */}
-        <div className="border-t-2 border-t-[#0000002d] px-4 py-3">
+        {/* <div className="border-t-2 border-t-[#0000002d] px-4 py-3">
           <form className="flex flex-col gap-y-4" id="form">
             {InputArray.map((inputArray, index) => {
               return (
@@ -54,10 +54,14 @@ function Infos() {
               );
             })}
           </form>
-        </div>
+        </div> */}
         {/* uploader section */}
         <div className="mt-8 flex flex-col gap-6 p-4 md:flex-row">
-          <UploaderBox imgSrc="/img/admin/profile/banana.png" title="پروفایل" />
+          <UploaderBox
+            imgSrc="/img/admin/profile/banana.png"
+            title="پروفایل"
+            isBanner={false}
+          />
           <UploaderBox
             imgSrc="/img/admin/banner/banner.png"
             title="بنر"
