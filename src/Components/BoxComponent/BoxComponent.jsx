@@ -1,24 +1,13 @@
 import { Typography, Button } from "@mui/material";
 import CourseTag from "./CourseTag";
 
-//icons
-import GroupIcon from "@mui/icons-material/Group";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import FolderIcon from "@mui/icons-material/Folder";
-
-const CourseTags = [
-  { icon: <AccountBalanceWalletIcon />, title: "قیمت", titleValue: "35000" },
-  { icon: <FolderIcon />, title: "دسته بندی", titleValue: "فرانت اند" },
-  { icon: <GroupIcon />, title: "تعداد فروش", titleValue: "10" },
-];
-
-function CourseBox() {
+function BoxComponent({ topIcon, title, details, imgSrc, tags }) {
   return (
-    <div className=" flex flex-col shadow-[0px_8px_24px_#959da5] lg:flex-row">
+    <div className=" group relative flex flex-col shadow-[0px_8px_24px_#959da5] first:mt-4 lg:flex-row">
       <div className="lg:w-3/4 xl:w-2/5 ">
         <img
           className="h-full max-w-[100%]"
-          src="/img/store/redux.png"
+          src={imgSrc}
           alt="course-picture"
         />
       </div>
@@ -29,15 +18,13 @@ function CourseBox() {
             className="text-[#ffc300]"
             sx={{ fontWeight: "bolder", fontSize: "20px", mb: "8px" }}
           >
-            دوره متخصص ریداکس
+            {title}
           </Typography>
-          <Typography className="text-[#808080]">
-            لورم ایپسوم متن ساختگی برای پروتوتایپ اپلیکیشن های ...
-          </Typography>
+          <Typography className="text-[#808080]">{details}</Typography>
         </div>
-        <div className="flex flex-col items-center bg-[#f6f6f6] p-2 sm:p-4 md:flex-row">
+        <div className="flex flex-col items-center bg-[#f6f6f6] p-2 sm:p-4 md:flex-row md:gap-x-4">
           <div className="flex flex-wrap gap-2 gap-x-5 text-[#0d6efd]">
-            {CourseTags.map((props) => (
+            {tags.map((props) => (
               <CourseTag key={props.title} {...props} />
             ))}
           </div>
@@ -51,8 +38,13 @@ function CourseBox() {
           </div>
         </div>
       </div>
+      {topIcon && (
+        <div className="absolute left-[-8px] top-[-13px] -rotate-45 rounded bg-[#d17804] p-1 text-white transition-all duration-300 group-hover:rotate-0 sm:left-[-15px] sm:p-2">
+          30%
+        </div>
+      )}
     </div>
   );
 }
 
-export default CourseBox;
+export default BoxComponent;

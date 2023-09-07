@@ -33,7 +33,11 @@ function Links() {
             <Button
               variant="text"
               className="flex gap-x-1"
-              sx={{ color: "#2f2f34" }}
+              sx={{
+                color: "#676879",
+                transition: "all 0.4s ease-out",
+                "&:hover": { color: "#009cf0" },
+              }}
             >
               {icon}
               {text}
