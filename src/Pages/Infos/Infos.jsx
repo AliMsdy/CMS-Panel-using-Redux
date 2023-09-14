@@ -20,9 +20,9 @@ const InputArray = [
     { label: "email", icon: <LanguageIcon />, type: "email" },
   ],
   [
-    { label: "رمز جاری", icon: <KeyIcon />, type: "password" },
-    { label: "رمز جدید", icon: <KeyIcon />, type: "password" },
-    { label: "تکرار رمز", icon: <KeyIcon />, type: "password" },
+    { id: 1, label: "رمز جاری", icon: <KeyIcon />, type: "password" },
+    { id: 2, label: "رمز جدید", icon: <KeyIcon />, type: "password" },
+    { id: 3, label: "تکرار رمز", icon: <KeyIcon />, type: "password" },
   ],
 ];
 

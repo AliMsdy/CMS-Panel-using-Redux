@@ -1,4 +1,4 @@
-import PageTemplate from "../../Components/PageTemplate/PageTemplate";
+import PageTemplate from "../../Layouts/PageTemplate/PageTemplate";
 import BoxComponent from "../../Components/BoxComponent/BoxComponent";
 import StyledButton from "../../Components/UI/MuiButton/MuiButton";
 

@@ -15,12 +15,12 @@ const PasswordInput = styled((props) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <FormControl variant="outlined">
-      <InputLabel htmlFor="outlined-adornment-password " shrink>
+      <InputLabel htmlFor={`outlined-adornment-password-${props.id}`} shrink>
         {props.label}
       </InputLabel>
       <OutlinedInput
         sx={{ padding: { xs: "0 10px", sm: "0 14px" } }}
-        id="outlined-adornment-password"
+        id={`outlined-adornment-password-${props.id}`}
         type={showPassword ? "text" : "password"}
         startAdornment={
           <InputAdornment position="end">{props.icon}</InputAdornment>

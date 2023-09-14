@@ -22,20 +22,18 @@ function ResponsiveMenu({ shouldShown, closeHandler }) {
       onKeyDown={closeHandler(false)}
     >
       <div className="mb-12 flex flex-col items-center">
-        <Profile width="w-[90%]" />
+        <Profile width="w-[90%]" responsiveMenu={true} />
       </div>
       <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
-              <ListItemIcon sx={{ color: "white" }}>
-                {index % 2 === 0 ? (
-                  <InboxIcon color="inherit" />
-                ) : (
-                  <MailIcon color="inherit" />
-                )}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+              {index % 2 === 0 ? (
+                <InboxIcon color="inherit" />
+              ) : (
+                <MailIcon color="inherit" />
+              )}
+              <ListItemText disableTypography primary={text} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -45,14 +43,14 @@ function ResponsiveMenu({ shouldShown, closeHandler }) {
         {["All mail", "Trash", "Spam"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
-              <ListItemIcon sx={{ color: "white" }}>
-                {index % 2 === 0 ? (
-                  <InboxIcon color="inherit" />
-                ) : (
-                  <MailIcon color="inherit" />
-                )}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+              {/* <ListItemIcon> */}
+              {index % 2 === 0 ? (
+                <InboxIcon color="inherit" />
+              ) : (
+                <MailIcon color="inherit" />
+              )}
+              {/* </ListItemIcon> */}
+              <ListItemText disableTypography primary={text} />
             </ListItemButton>
           </ListItem>
         ))}

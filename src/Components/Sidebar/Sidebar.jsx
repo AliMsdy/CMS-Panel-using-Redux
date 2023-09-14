@@ -1,14 +1,25 @@
 //components
 import Profile from "../Header/Profile/Profile";
-import { Button } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 // icons
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
 import ModeIcon from "@mui/icons-material/Mode";
 
+const UserInfoIcon = styled(LocalParkingIcon)(({ theme }) => {
+  console.log(theme.palette);
+  return {
+    color: theme.palette.mode === "dark" ? theme.palette.text.primary : null,
+  };
+});
+
 function Sidebar() {
   return (
     <div className="flex flex-col items-center justify-between sm:w-1/3 sm:items-start">
-      <div className="w-[90%] max-w-[400px] bg-white lg:w-[60%]">
+      <Stack
+        bgcolor="background.secondary"
+        className="w-[90%] max-w-[400px] lg:w-[60%]"
+      >
         <div>
           <img
             className="h-auto max-w-full rounded-t-md"
@@ -21,18 +32,18 @@ function Sidebar() {
         </div>
         <ul className="px-4 sm:px-2">
           <li className="last:border-top-0 flex items-center justify-between border-t-2 py-3">
-            <LocalParkingIcon />
-            <p className="font-bold">نام کوچک</p>
+            <UserInfoIcon />
+            <Typography>نام کوچک</Typography>
             <p className="mr-auto text-teal-600">محمد امین</p>
           </li>
           <li className="last:border-top-0 flex items-center justify-between border-t-2 py-3">
-            <LocalParkingIcon />
-            <p className="font-bold">نام خانوادگی</p>
+            <UserInfoIcon />
+            <Typography>نام خانوادگی</Typography>
             <p className="mr-auto text-red-800">سعیدی راد</p>
           </li>
           <li className="last:border-top-0 flex items-center justify-between border-t-2 py-3">
-            <LocalParkingIcon />
-            <p className="font-bold">تعداد دوره</p>
+            <UserInfoIcon />
+            <Typography>تعداد دوره</Typography>
             <p className="mr-auto text-teal-900">35</p>
           </li>
         </ul>
@@ -45,7 +56,7 @@ function Sidebar() {
             تغییر اطلاعات
           </Button>
         </div>
-      </div>
+      </Stack>
     </div>
   );
 }

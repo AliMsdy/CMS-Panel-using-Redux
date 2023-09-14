@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useTheme } from "@mui/material/styles";
 
 // components
 import { Button } from "@mui/material";
@@ -20,6 +21,9 @@ const LinksArray = [
 
 function Links() {
   const location = useLocation();
+  const {
+    palette: { mode },
+  } = useTheme();
 
   return (
     <ul className="border-b-solid space-x-2 border-b-2 border-b-gray-400 py-3">
@@ -34,7 +38,7 @@ function Links() {
               variant="text"
               className="flex gap-x-1"
               sx={{
-                color: "#676879",
+                color: mode === "dark" ? "#fff" : "#676879",
                 transition: "all 0.4s ease-out",
                 "&:hover": { color: "#009cf0" },
               }}

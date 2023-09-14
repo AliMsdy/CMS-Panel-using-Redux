@@ -1,6 +1,6 @@
-import React from "react";
+import { Typography } from "@mui/material";
 
-function Profile({ width, margin, border }) {
+function Profile({ width, margin, border, responsiveMenu }) {
   return (
     <>
       <div className={width}>
@@ -13,8 +13,18 @@ function Profile({ width, margin, border }) {
         />
       </div>
       <div className={`${margin} text-center`}>
-        <h4 className="text-xl font-bold">محمد امین سعیدی راد</h4>
-        <p>توسعه دهنده جاوااسکریپت</p>
+        <Typography
+          sx={{ color: responsiveMenu ? "#fff" : "text.primary" }}
+          variant="h6"
+        >
+          محمد امین سعیدی راد
+        </Typography>
+        <Typography
+          sx={{ color: responsiveMenu ? "#fff" : "text.primary" }}
+          variant="body2"
+        >
+          توسعه دهنده جاوااسکریپت
+        </Typography>
       </div>
     </>
   );

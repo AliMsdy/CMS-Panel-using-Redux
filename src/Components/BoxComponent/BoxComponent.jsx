@@ -1,7 +1,11 @@
-import { Typography, Button } from "@mui/material";
+import { Typography, Button, Stack } from "@mui/material";
 import CourseTag from "./CourseTag";
+import { useTheme } from "@mui/material/styles";
 
 function BoxComponent({ topIcon, title, details, imgSrc, tags }) {
+  const {
+    palette: { mode },
+  } = useTheme();
   return (
     <div className=" group relative flex flex-col shadow-[0px_8px_24px_#959da5] first:mt-4 lg:flex-row">
       <div className="lg:w-3/4 xl:w-2/5 ">
@@ -22,7 +26,11 @@ function BoxComponent({ topIcon, title, details, imgSrc, tags }) {
           </Typography>
           <Typography className="text-[#808080]">{details}</Typography>
         </div>
-        <div className="flex flex-col items-center bg-[#f6f6f6] p-2 sm:p-4 md:flex-row md:gap-x-4">
+        <div
+          className={`flex flex-col items-center p-2 sm:p-4 md:flex-row md:gap-x-4 ${
+            mode === "light" && "bg-[#f6f6f6]"
+          }`}
+        >
           <div className="flex flex-wrap gap-2 gap-x-5 text-[#0d6efd]">
             {tags.map((props) => (
               <CourseTag key={props.title} {...props} />
@@ -48,3 +56,4 @@ function BoxComponent({ topIcon, title, details, imgSrc, tags }) {
 }
 
 export default BoxComponent;
+// bg-[#f6f6f6]

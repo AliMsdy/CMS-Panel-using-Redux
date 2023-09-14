@@ -24,7 +24,6 @@ body {
   height: 100vh;
   font-family: var(--font-primary);
   font-size: var(--font-size-default);
-  background-color: var(--bg-light);
 }
 
 *[lang="en"] {
