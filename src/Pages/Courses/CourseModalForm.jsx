@@ -23,13 +23,13 @@ import { styled } from "@mui/system";
 import { CheckboxWithLabel, Select, TextField } from "formik-mui";
 
 //toast Context
-import {ToastContext} from "../../context/ToastContext"
+import { ToastContext } from "../../context/ToastContext";
 
 //actions
 import { createCourseInTheServer } from "../../Redux/features/courses/courses";
 
-import { useDispatch } from "react-redux";
 import { useContext } from "react";
+import { useDispatch } from "react-redux";
 
 const blue = {
   100: "#DAECFF",
@@ -114,7 +114,7 @@ const style = {
 
 function CourseModalForm({ modalStatus, setModalStatus }) {
   const dispatch = useDispatch();
-  const {setToastSettings} = useContext(ToastContext)
+  const { setToastSettings } = useContext(ToastContext);
 
   return (
     <Modal
@@ -153,13 +153,17 @@ function CourseModalForm({ modalStatus, setModalStatus }) {
                 confirmation: false,
               }}
               validationSchema={validationSchema}
-              onSubmit={async (values,actions) => {
+              onSubmit={async (values, actions) => {
                 delete values["confirmation"];
-                values["price"] = parseInt(values.price.replace(/,/g,""))
+                values["price"] = parseInt(values.price.replace(/,/g, ""));
                 await dispatch(createCourseInTheServer(values));
-                actions.setSubmitting(false)
-                setModalStatus(false)
-                setToastSettings({status: true,msg: "دوره با موفقیت اضافه شد", type: "success"})
+                actions.setSubmitting(false);
+                setModalStatus(false);
+                setToastSettings({
+                  status: true,
+                  msg: "دوره با موفقیت اضافه شد",
+                  type: "success",
+                });
               }}
             >
               {({
@@ -186,6 +190,7 @@ function CourseModalForm({ modalStatus, setModalStatus }) {
                       pattern="[0-9]+"
                       label="قیمت دوره (تومان)"
                       onChange={(e) => {
+                        console.log(e.target.value);
                         if (e.target.value !== "") {
                           const rawValue = e.target.value;
                           const cleanedValue = rawValue.replace(/,/g, ""); // Remove existing commas
@@ -215,7 +220,9 @@ function CourseModalForm({ modalStatus, setModalStatus }) {
                     <Field
                       component={TextField}
                       name="discount"
-                      type="number"
+                      type="text"
+                      inputmode="numeric"
+                      pattern="[0-9]+"
                       label="تخفیف دوره %"
                     />
 
