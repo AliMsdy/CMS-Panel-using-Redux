@@ -1,53 +1,98 @@
-import { Grid, Box, Stack, Typography, Button } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 
-function UserBox({ first_name, last_name, email, profile_picture }) {
+//icon
+
+import profilePic from "/img/admin/profile/banana.png";
+
+import { useDispatch } from "react-redux";
+import { deleteUserFromServer } from "../../Redux/features/users/users";
+
+import { useState } from "react";
+import swal from "sweetalert";
+import UserModalInfo from "../../Pages/Users/UserModalInfo";
+
+function UserBox({ userInfo }) {
+  const dispatch = useDispatch();
+  const [modalStatus, setModalStatus] = useState(false);
+  const { firstname, lastname, email, _id } = userInfo;
+
+  const removeUserHandler = () => {
+    swal({
+      title: "آیا از حذف کاربر اطمینان دارید ؟",
+      icon: "warning",
+      buttons: ["آره", "نه"],
+    }).then((result) => {
+      if (!result) {
+        dispatch(deleteUserFromServer(_id));
+        swal({
+          title: "کاربر مورد نظر با موفقیت حذف شد",
+          icon: "success",
+          button: "باشه",
+        });
+      }
+    });
+  };
+
   return (
-    <Grid
-      className="mt-4 flex border-2 border-[#676879] p-4"
-      container
-      direction="row"
-    >
-      {/* user infos */}
-      <Grid item xs={12} md={6}>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          alignItems="center"
-          className="gap-y-4 sm:gap-y-0"
-        >
-          <div className="w-[50%] sm:w-[25%]">
-            <img
-              src={profile_picture}
-              className="h-auto max-w-[100%]"
-              alt="profile-pic"
-            />
-          </div>
-          <div className="text-center sm:mr-4 sm:text-right">
-            <Typography gutterBottom>
-              {first_name} {last_name}
-            </Typography>
-            <Typography variant="body2">{email}</Typography>
-          </div>
-        </Stack>
-      </Grid>
-
-      {/* user operation buttons */}
+    <>
       <Grid
-        item
-        xs={12}
-        md={6}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+        className="mt-4 flex border-2 border-[#676879] p-4"
+        container
+        direction="row"
       >
-        <Box className="mt-4 flex gap-x-2 lg:mt-2">
-          <Button color="secondary">پیام ها</Button>
-          <Button color="primary">اطلاعات</Button>
-          <Button color="error">حذف</Button>
-        </Box>
+        {/* user infos */}
+        <Grid item xs={12} md={6}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems="center"
+            className="gap-y-4 sm:gap-y-0"
+          >
+            <div className="w-[50%] sm:w-[25%]">
+              <img
+                src={profilePic}
+                className="h-auto max-w-[100%]"
+                alt="profile-pic"
+              />
+            </div>
+            <div className="text-center sm:mr-4 sm:text-right">
+              <Typography gutterBottom>
+                {firstname} {lastname}
+              </Typography>
+              <Typography variant="body2">{email}</Typography>
+            </div>
+          </Stack>
+        </Grid>
+
+        {/* user operation buttons */}
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Box className="mt-4 flex gap-x-2 lg:mt-2">
+            <Button color="secondary">پیام ها</Button>
+            <Button color="primary" onClick={() => setModalStatus(true)}>
+              اطلاعات
+            </Button>
+            <Button color="error" onClick={removeUserHandler}>
+              حذف
+            </Button>
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
+      {modalStatus && (
+        <UserModalInfo
+          modalStatus={modalStatus}
+          setModalStatus={setModalStatus}
+          userInfo={userInfo}
+        />
+      )}
+    </>
   );
 }
 

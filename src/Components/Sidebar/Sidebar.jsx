@@ -7,7 +7,7 @@ import LocalParkingIcon from "@mui/icons-material/LocalParking";
 import ModeIcon from "@mui/icons-material/Mode";
 
 const UserInfoIcon = styled(LocalParkingIcon)(({ theme }) => {
-  console.log(theme.palette);
+  // console.log(theme.palette);
   return {
     color: theme.palette.mode === "dark" ? theme.palette.text.primary : null,
   };

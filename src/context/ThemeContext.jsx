@@ -1,6 +1,5 @@
 import { createContext, useState, useMemo } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-// import { amber, deepOrange, grey } from "@mui/material/colors";
 import { CssBaseline } from "@mui/material";
 export const ThemeToggleContext = createContext();
 
@@ -11,6 +10,8 @@ const lightTheme = {
   },
   text: {
     primary: "#000000de",
+    secondary: "#808080",
+    // secondary: "#ce0000",
   },
 };
 const darkTheme = {
@@ -20,6 +21,7 @@ const darkTheme = {
   },
   text: {
     primary: "#fff",
+    secondary: "#f0f0f0",
   },
 };
 
@@ -48,6 +50,10 @@ const getDesignTokens = (mode) => ({
     error: {
       main: "#ce0000",
     },
+    warning: {
+      main: "#ffc300",
+    },
+
     background:
       mode === "dark"
         ? { ...darkTheme.background }
@@ -57,17 +63,22 @@ const getDesignTokens = (mode) => ({
   },
 });
 
+const savedTheme = localStorage.getItem("theme");
+
 function ThemeContext({ children }) {
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState(savedTheme || "dark");
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+        setMode((prevMode) => (prevMode === "dark" ? "light" : "dark"));
       },
     }),
     [],
   );
-  const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  const theme = useMemo(() => {
+    localStorage.setItem("theme", mode);
+    return createTheme(getDesignTokens(mode));
+  }, [mode]);
   return (
     <ThemeToggleContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>

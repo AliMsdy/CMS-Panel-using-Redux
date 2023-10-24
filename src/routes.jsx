@@ -1,8 +1,10 @@
 import Users from "./Pages/Users/Users";
 import Infos from "./Pages/Infos/Infos";
-import Courses from "./Pages/Courses/Courses";
-import Articles from "./Pages/Articles/Articles";
 import NotFound from "./Pages/NotFound/NotFound";
+
+import { lazy } from "react";
+const Courses = lazy(() => import("./Pages/Courses/Courses"));
+const Articles = lazy(() => import("./Pages/Articles/Articles"));
 
 // Layout
 import Layouts from "./Layouts/Layouts";

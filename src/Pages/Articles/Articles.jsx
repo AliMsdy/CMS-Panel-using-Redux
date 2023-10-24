@@ -12,6 +12,9 @@ function pageActionsButtons() {
 //icons
 import FolderIcon from "@mui/icons-material/Folder";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getArticlesFromServer } from "../../Redux/features/articles/articles";
 
 const articleTags = [
   { icon: <FolderIcon />, title: "دسته بندی", titleValue: "فرانت اند" },
@@ -19,26 +22,18 @@ const articleTags = [
 ];
 
 function Articles() {
+  const articles = useSelector((state) => state.articles);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // this is for avoiding to send the request to the server when component mounted
+    // if (!articles.length) dispatch(getArticlesFromServer());
+    dispatch(getArticlesFromServer());
+  }, []);
   return (
     <PageTemplate pageActions={pageActionsButtons()}>
-      <BoxComponent
-        title="دوره متخصص ریداکس"
-        details="Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti ullam voluptates impedit incidunt"
-        imgSrc="/img/store/products/product-img-1.jpg"
-        tags={articleTags}
-      />
-      <BoxComponent
-        title="دوره متخصص ریداکس"
-        details="Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti ullam voluptates impedit incidunt"
-        imgSrc="/img/store/products/product-img-1.jpg"
-        tags={articleTags}
-      />
-      <BoxComponent
-        title="دوره متخصص ریداکس"
-        details="Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti ullam voluptates impedit incidunt"
-        imgSrc="/img/store/products/product-img-1.jpg"
-        tags={articleTags}
-      />
+      {articles.map((article) => (
+        <BoxComponent key={article._id} {...article} />
+      ))}
     </PageTemplate>
   );
 }

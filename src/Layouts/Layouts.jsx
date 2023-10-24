@@ -1,10 +1,16 @@
-import Header from "../Components/Header/Header";
-import Sidebar from "../Components/Sidebar/Sidebar";
-import Links from "../Components/Links/Links";
-import { Outlet } from "react-router-dom";
 import { Stack } from "@mui/material";
+import { Suspense } from "react";
+import { Outlet } from "react-router-dom";
+import Header from "../Components/Header/Header";
+import Links from "../Components/Links/Links";
+import Sidebar from "../Components/Sidebar/Sidebar";
+import BoxComponentLoading from "../Components/UI/Loading/BoxComponentLoading";
 
 function Layouts() {
+  const LoadingMarkUp = Array.from(new Array(5)).map((_, index) => (
+    <BoxComponentLoading key={index} />
+  ));
+
   return (
     <>
       <Header />
@@ -15,7 +21,9 @@ function Layouts() {
           className="mt-10 sm:mt-0 sm:w-3/4"
         >
           <Links />
-          <Outlet />
+          <Suspense fallback={<div className="p-4">{LoadingMarkUp}</div>}>
+            <Outlet />
+          </Suspense>
         </Stack>
       </div>
     </>
@@ -23,3 +31,4 @@ function Layouts() {
 }
 
 export default Layouts;
+

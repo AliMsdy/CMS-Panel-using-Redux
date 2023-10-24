@@ -60,13 +60,3 @@ const InfoInput = styled((props) => {
 
 export { InfoInput, PasswordInput };
 
-// endAdornment: props.type === "password" && (
-//     <InputAdornment position="end">
-//       <IconButton
-//       //   onClick={handleClickShowPassword}
-//       //   onMouseDown={handleMouseDownPassword}
-//       >
-//         {/* {showPassword ? <VisibilityOff /> : <Visibility />} */}
-//       </IconButton>
-//     </InputAdornment>
-//   ),

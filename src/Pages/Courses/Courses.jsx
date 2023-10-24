@@ -1,53 +1,54 @@
-import PageTemplate from "../../Layouts/PageTemplate/PageTemplate";
-import BoxComponent from "../../Components/BoxComponent/BoxComponent";
 import StyledButton from "../../Components/UI/MuiButton/MuiButton";
+import PageTemplate from "../../Layouts/PageTemplate/PageTemplate";
 
-function pageActionsButtons() {
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+//actions
+import { getCoursesFromServer } from "../../Redux/features/courses/courses";
+
+//components
+import BoxComponent from "../../Components/BoxComponent/BoxComponent";
+import CourseModalForm from "./CourseModalForm";
+
+function PageActionsButtons() {
+  const [modalStatus, setModalStatus] = useState(false);
   return (
     <>
-      <StyledButton customcolor="#009cf0">افزودن دوره جدید</StyledButton>
+      <StyledButton customcolor="#009cf0" onClick={() => setModalStatus(true)}>
+        افزودن دوره جدید
+      </StyledButton>
+      {modalStatus && (
+        <CourseModalForm
+          modalStatus={modalStatus}
+          setModalStatus={setModalStatus}
+        />
+      )}
       <StyledButton customcolor="#ce0000">اعمال تخفیف همه دوره ها</StyledButton>
       <StyledButton customcolor="#41b300">افزودن دسته بندی</StyledButton>
     </>
   );
 }
 
-//icons
-import GroupIcon from "@mui/icons-material/Group";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import FolderIcon from "@mui/icons-material/Folder";
-
-const courseTags = [
-  { icon: <AccountBalanceWalletIcon />, title: "قیمت", titleValue: "35000" },
-  { icon: <FolderIcon />, title: "دسته بندی", titleValue: "فرانت اند" },
-  { icon: <GroupIcon />, title: "تعداد فروش", titleValue: "10" },
-];
-
 function Courses() {
+  const courses = useSelector((state) => state.courses);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // this is for avoiding to send the request to the server when component mounted
+    // if (!courses.length) dispatch(getCoursesFromServer());
+    dispatch(getCoursesFromServer());
+    // line below is for disable unnecessary warning in the problem panel
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <PageTemplate pageActions={pageActionsButtons()}>
-      <BoxComponent
-        title="دوره متخصص ریداکس"
-        topIcon
-        details="لورم ایپسوم متن ساختگی برای پروتوتایپ اپلیکیشن های ..."
-        imgSrc="/img/store/redux.png"
-        tags={courseTags}
-      />
-      <BoxComponent
-        title="دوره متخصص ریداکس"
-        topIcon
-        details="لورم ایپسوم متن ساختگی برای پروتوتایپ اپلیکیشن های ..."
-        imgSrc="/img/store/redux.png"
-        tags={courseTags}
-      />
-      <BoxComponent
-        title="دوره متخصص ریداکس"
-        topIcon
-        details="لورم ایپسوم متن ساختگی برای پروتوتایپ اپلیکیشن های ..."
-        imgSrc="/img/store/redux.png"
-        tags={courseTags}
-      />
-    </PageTemplate>
+    <>
+      <PageTemplate pageActions={PageActionsButtons()}>
+        {[...courses].reverse().map((course) => (
+          <BoxComponent key={course._id} topIcon {...course} />
+        ))}
+      </PageTemplate>
+    </>
   );
 }
 

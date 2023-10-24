@@ -6,7 +6,7 @@ function PageTemplate({ children, pageActions }) {
   } = useTheme();
   return (
     <div className=" px-6 py-8">
-      <div className="flex h-[500px] flex-col gap-y-12 overflow-x-hidden overflow-y-scroll p-3 sm:p-5">
+      <div className="custom-scroll flex h-[500px] flex-col gap-y-12 overflow-x-hidden overflow-y-scroll p-3 sm:p-5">
         {children}
       </div>
       <div

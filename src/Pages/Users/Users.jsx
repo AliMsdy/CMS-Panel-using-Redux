@@ -1,35 +1,55 @@
-import { Button, TextField, InputAdornment } from "@mui/material";
+//Mui components
+import { Button, InputAdornment, TextField } from "@mui/material";
+
+import { Suspense, lazy, useEffect, useState, useTransition } from "react";
+import UserSkeletonLoading from "../../Components/UI/Loading/UserSkeletonLoading";
 
 //components
-import UserBox from "../../Components/UserBox/UserBox";
+const UsersList = lazy(() => import("./UsersList"));
 
 //icons
 import SearchIcon from "@mui/icons-material/Search";
 
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+//actions
+import { getUsersFromServer } from "../../Redux/features/users/users";
 
 function Users() {
   const [searchedUser, setSearchedUser] = useState([]);
+  const [value, setValue] = useState("");
+  const [isPending, startTransition] = useTransition();
   const users = useSelector((state) => state.users);
 
+  const dispatch = useDispatch();
+
   const searchUserHandler = ({ target: { value } }) => {
+    setValue(value);
     const searchedItem = value.toLowerCase();
     const searchedUserArray = [];
     users.forEach((user) => {
-      const { first_name, last_name, email } = user;
-      const fullName = `${first_name.toLowerCase()} ${last_name.toLowerCase()}`;
+      const { firstname, lastname, email } = user;
+      const fullName = `${firstname.toLowerCase()} ${lastname.toLowerCase()}`;
       if (fullName.includes(searchedItem) || email.includes(searchedItem)) {
-        // console.log(user);
         searchedUserArray.push(user);
       }
     });
-    // console.log(searchedUserArray);
-    setSearchedUser(searchedUserArray);
+    startTransition(() => setSearchedUser(searchedUserArray));
   };
 
+  useEffect(() => {
+    // this is for avoiding to send the request to the server when component mounted
+    // if (!users.length) dispatch(getUsersFromServer());
+    dispatch(getUsersFromServer());
+  }, []);
+
+  const list = searchedUser.length ? searchedUser : users;
+  const loadingMarkup = Array.from(new Array(5)).map((_, index) => (
+    <UserSkeletonLoading key={index} />
+  ));
+
   return (
-    <div className="h-[500px] overflow-y-scroll px-4 py-8">
+    <div className="custom-scroll h-[500px] overflow-y-scroll px-4 py-8">
       {/* users setting (delete user button and search users) */}
       <div className="mb-12 flex flex-col justify-between space-y-5 sm:flex-row sm:space-y-0">
         <TextField
@@ -44,16 +64,16 @@ function Users() {
             ),
           }}
           spellCheck={false}
+          value={value}
           onChange={searchUserHandler}
         />
         <Button color="error" sx={{ px: 5 }}>
           حذف کاربر
         </Button>
       </div>
-
-      {searchedUser.length
-        ? searchedUser.map((user) => <UserBox key={user.id} {...user} />)
-        : users.map((user) => <UserBox key={user.id} {...user} />)}
+      <Suspense fallback={loadingMarkup}>
+        <UsersList list={list} />
+      </Suspense>
     </div>
   );
 }
