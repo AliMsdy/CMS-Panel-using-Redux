@@ -186,7 +186,7 @@ function CourseModalForm({ modalStatus, setModalStatus }) {
                       component={TextField}
                       name="price"
                       type="text"
-                      inputmode="numeric"
+                      inputMode="numeric"
                       pattern="[0-9]+"
                       label="قیمت دوره (تومان)"
                       onChange={(e) => {
@@ -221,7 +221,7 @@ function CourseModalForm({ modalStatus, setModalStatus }) {
                       component={TextField}
                       name="discount"
                       type="text"
-                      inputmode="numeric"
+                      inputMode="numeric"
                       pattern="[0-9]+"
                       label="تخفیف دوره %"
                     />
