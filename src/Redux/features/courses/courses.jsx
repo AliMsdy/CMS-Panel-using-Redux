@@ -45,7 +45,7 @@ const coursesSlice = createSlice({
       })
       .addCase(
         createCourseInTheServer.fulfilled,
-        (state, action) => action.payload,
+        (_, action) => action.payload,
       );
   },
 });

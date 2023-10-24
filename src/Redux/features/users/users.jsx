@@ -17,6 +17,14 @@ export const deleteUserFromServer = createAsyncThunk(
     return response.data; //userId returned
   },
 );
+export const createUserInServer = createAsyncThunk(
+  "users/createUserInServer",
+  async (userInfo) => {
+     await axios.post("api/users",userInfo);
+    const allUsers = await axios.get("api/users")
+    return allUsers.data;
+  },
+);
 
 const usersSlice = createSlice({
   name: "users",
@@ -26,12 +34,15 @@ const usersSlice = createSlice({
     builder
       .addCase(getUsersFromServer.fulfilled, (_, action) => action.payload)
       .addCase(deleteUserFromServer.fulfilled, (state, action) => {
-        console.log(state.users);
         const filteredUsers = state.filter(
           (user) => user._id !== action.payload.id,
         );
         return filteredUsers;
-      });
+      })
+      .addCase(
+        createUserInServer.fulfilled,
+        (_, action) => action.payload,
+      );
   },
 });
 

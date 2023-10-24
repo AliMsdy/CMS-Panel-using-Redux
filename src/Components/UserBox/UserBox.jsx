@@ -5,33 +5,23 @@ import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import profilePic from "/img/admin/profile/banana.png";
 
 import { useDispatch } from "react-redux";
-import { deleteUserFromServer } from "../../Redux/features/users/users";
 
 import { useState } from "react";
-import swal from "sweetalert";
 import UserModalInfo from "../../Pages/Users/UserModalInfo";
+import removeUserHandler from "../../helper/removeUserHandler";
 
-function UserBox({ userInfo }) {
+function UserBox({ userInfo,setValue,setSearchedUser }) {
   const dispatch = useDispatch();
   const [modalStatus, setModalStatus] = useState(false);
   const { firstname, lastname, email, _id } = userInfo;
 
-  const removeUserHandler = () => {
-    swal({
-      title: "آیا از حذف کاربر اطمینان دارید ؟",
-      icon: "warning",
-      buttons: ["آره", "نه"],
-    }).then((result) => {
-      if (!result) {
-        dispatch(deleteUserFromServer(_id));
-        swal({
-          title: "کاربر مورد نظر با موفقیت حذف شد",
-          icon: "success",
-          button: "باشه",
-        });
+  const removeUser = async () => {
+    const isDeleted = await removeUserHandler(_id, dispatch);
+      if (isDeleted) {
+        setValue("");
+        setSearchedUser([]);
       }
-    });
-  };
+  }
 
   return (
     <>
@@ -79,7 +69,10 @@ function UserBox({ userInfo }) {
             <Button color="primary" onClick={() => setModalStatus(true)}>
               اطلاعات
             </Button>
-            <Button color="error" onClick={removeUserHandler}>
+            <Button
+              color="error"
+              onClick={removeUser}
+            >
               حذف
             </Button>
           </Box>

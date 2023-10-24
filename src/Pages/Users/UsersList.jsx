@@ -1,9 +1,9 @@
 import UserBox from "../../Components/UserBox/UserBox";
-function UsersList({ list }) {
+function UsersList({ list,setValue,setSearchedUser }) {
   return (
     <>
-      {list.map((user) => (
-        <UserBox key={user._id} userInfo={user} />
+      {[...list].reverse().map((user) => (
+        <UserBox setValue={setValue} setSearchedUser={setSearchedUser} key={user._id} userInfo={user} />
       ))}
     </>
   );
