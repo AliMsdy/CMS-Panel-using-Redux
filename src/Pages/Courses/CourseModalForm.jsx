@@ -182,6 +182,8 @@ function CourseModalForm({ modalStatus, setModalStatus }) {
                       component={TextField}
                       name="price"
                       type="text"
+                      inputmode="numeric"
+                      pattern="[0-9]+"
                       label="قیمت دوره (تومان)"
                       onChange={(e) => {
                         if (e.target.value !== "") {
