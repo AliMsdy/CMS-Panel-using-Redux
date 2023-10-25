@@ -1,12 +1,13 @@
 //Mui components
 import { Button, InputAdornment, Stack, TextField } from "@mui/material";
+import { CheckboxWithLabel, TextField as InputField } from "formik-mui";
 
 import { Suspense, lazy, useEffect, useState, useTransition } from "react";
+import * as yup from "yup";
 import UserSkeletonLoading from "../../Components/UI/Loading/UserSkeletonLoading";
 
 //components
 const UsersList = lazy(() => import("./UsersList"));
-import CreateUserModalForm from "./CreateUserModalForm";
 
 //icons
 import SearchIcon from "@mui/icons-material/Search";
@@ -14,14 +15,84 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
 
 //actions
-import { getUsersFromServer } from "../../Redux/features/users/users";
+import ModalForm from "../../Components/ModalForm/ModalForm";
+import {
+  createUserInServer,
+  getUsersFromServer,
+} from "../../Redux/features/users/users";
 import removeUserHandler from "../../helper/removeUserHandler";
+
+const userInputsInitialValues = {
+  firstname: "",
+  lastname: "",
+  username: "",
+  email: "",
+  city: "",
+  age: "",
+  confirmation: false,
+};
+
+const validationSchema = yup.object().shape({
+  firstname: yup.string().required("نام کاربر را وارد کنید"),
+  lastname: yup.string().required("نام خانوادگی کاربر را وارد کنید"),
+  username: yup.string().required("نام کاربری را وارد کنید"),
+  email: yup
+    .string()
+    .email("ایمیل وارد شده معتبر نمیباشد")
+    .required("ایمیل کاربر را وارد کنید"),
+  city: yup.string().required("شهر کاربر را وارد کنید"),
+  age: yup
+    .number()
+    .min(0, "سن وارد شده خارج از محدوده میباشد")
+    .required("سن کاربر را وارد کنید"),
+  confirmation: yup
+    .boolean()
+    .default(false)
+    .isTrue("اضافه شدن کاربر را تایید کنید"),
+});
+
+const createUserInputs = [
+  {
+    name: "firstname",
+    props: { component: InputField, type: "text", label: "نام" },
+  },
+  {
+    name: "lastname",
+    props: { component: InputField, type: "text", label: "نام خانوادگی" },
+  },
+  {
+    name: "username",
+    props: { component: InputField, type: "text", label: "نام کاربری" },
+  },
+  {
+    name: "email",
+    props: { component: InputField, type: "email", label: "ایمیل" },
+  },
+  {
+    name: "city",
+    props: { component: InputField, type: "text", label: "شهر کاربر" },
+  },
+  {
+    name: "age",
+    props: { component: InputField, type: "number", label: "سن کاربر" },
+  },
+  {
+    name: "confirmation",
+    props: {
+      type: "checkbox",
+      component: CheckboxWithLabel,
+      Label: {
+        label: "با افزودن این کاربر به لیست کاربر های سایت موافقت میکنم",
+      },
+    },
+  },
+];
 
 function Users() {
   const [searchedUser, setSearchedUser] = useState([]);
   const [value, setValue] = useState("");
-  const [isPending, startTransition] = useTransition();
-  const [modalStatus,setModalStatus] = useState(false)
+  const [_, startTransition] = useTransition();
+  const [modalStatus, setModalStatus] = useState(false);
   const users = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
@@ -102,9 +173,14 @@ function Users() {
         />
       </Suspense>
       {modalStatus && (
-        <CreateUserModalForm
+        <ModalForm
           modalStatus={modalStatus}
           setModalStatus={setModalStatus}
+          type="کاربر"
+          inputs={createUserInputs}
+          initialValues={userInputsInitialValues}
+          validationSchema={validationSchema}
+          submitForm={(data) => dispatch(createUserInServer(data))}
         />
       )}
     </div>

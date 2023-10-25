@@ -20,9 +20,13 @@ export const deleteUserFromServer = createAsyncThunk(
 export const createUserInServer = createAsyncThunk(
   "users/createUserInServer",
   async (userInfo) => {
-     await axios.post("api/users",userInfo);
-    const allUsers = await axios.get("api/users")
-    return allUsers.data;
+    try {
+      await axios.post("api/users", userInfo);
+      const allUsers = await axios.get("api/users");
+      return allUsers.data;
+    } catch (error) {
+      console.log("Error", error);
+    }
   },
 );
 
@@ -39,10 +43,7 @@ const usersSlice = createSlice({
         );
         return filteredUsers;
       })
-      .addCase(
-        createUserInServer.fulfilled,
-        (_, action) => action.payload,
-      );
+      .addCase(createUserInServer.fulfilled, (_, action) => action.payload);
   },
 });
 

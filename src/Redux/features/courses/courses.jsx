@@ -30,6 +30,19 @@ export const createCourseInTheServer = createAsyncThunk(
   },
 );
 
+export const setDiscount = createAsyncThunk(
+  "courses/setDiscount",
+  async (discount) => {
+    try {
+      await axios.post("api/courses/discount", discount);
+      const allCourses = await axios.get("api/courses");
+      return allCourses.data;
+    } catch (error) {
+      console.log("Error", error);
+    }
+  },
+);
+
 const coursesSlice = createSlice({
   name: "courses",
   initialState: [],
@@ -43,10 +56,8 @@ const coursesSlice = createSlice({
         );
         return filteredCourses;
       })
-      .addCase(
-        createCourseInTheServer.fulfilled,
-        (_, action) => action.payload,
-      );
+      .addCase(createCourseInTheServer.fulfilled, (_, action) => action.payload)
+      .addCase(setDiscount.fulfilled, (_, action) => action.payload);
   },
 });
 

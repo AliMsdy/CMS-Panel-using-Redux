@@ -17,6 +17,15 @@ export const deleteArticleFromServer = createAsyncThunk(
   },
 );
 
+export const createArticleInServer = createAsyncThunk(
+  "users/createArticleInServer",
+  async (articleInfo) => {
+     await axios.post("api/articles",articleInfo);
+    const allArticles = await axios.get("api/articles")
+    return allArticles.data;
+  },
+);
+
 const articlesSlice = createSlice({
   name: "articles",
   initialState: [],
@@ -29,7 +38,11 @@ const articlesSlice = createSlice({
           (article) => article._id !== action.payload.id,
         );
         return filteredArticles;
-      });
+      })
+      .addCase(
+        createArticleInServer.fulfilled,
+        (_, action) => action.payload,
+      );
   },
 });
 
