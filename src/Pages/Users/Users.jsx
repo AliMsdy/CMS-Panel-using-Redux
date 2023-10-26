@@ -91,6 +91,7 @@ const createUserInputs = [
 function Users() {
   const [searchedUser, setSearchedUser] = useState([]);
   const [value, setValue] = useState("");
+  const [page, setPage] = useState(1);
   const [_, startTransition] = useTransition();
   const [modalStatus, setModalStatus] = useState(false);
   const users = useSelector((state) => state.users);
@@ -99,16 +100,20 @@ function Users() {
 
   const searchUserHandler = ({ target: { value } }) => {
     setValue(value);
-    const searchedItem = value.toLowerCase();
-    const searchedUserArray = [];
-    users.forEach((user) => {
-      const { firstname, lastname, email } = user;
-      const fullName = `${firstname.toLowerCase()} ${lastname.toLowerCase()}`;
-      if (fullName.includes(searchedItem) || email.includes(searchedItem)) {
-        searchedUserArray.push(user);
-      }
-    });
-    startTransition(() => setSearchedUser(searchedUserArray));
+    if (value) {
+      const searchedItem = value.toLowerCase();
+      const searchedUserArray = [];
+      users.forEach((user) => {
+        const { firstname, lastname, email } = user;
+        const fullName = `${firstname.toLowerCase()} ${lastname.toLowerCase()}`;
+        if (fullName.includes(searchedItem) || email.includes(searchedItem)) {
+          searchedUserArray.push(user);
+        }
+      });
+      startTransition(() => setSearchedUser(searchedUserArray));
+    }else{
+      searchedUser.length && setSearchedUser([])
+    }
   };
 
   useEffect(() => {
@@ -116,8 +121,11 @@ function Users() {
     // if (!users.length) dispatch(getUsersFromServer());
     dispatch(getUsersFromServer());
   }, []);
-
-  const list = searchedUser.length ? searchedUser : users;
+  const selectedUsers = [...users].reverse().slice(0, page * 3);
+  const shouldShownLoadMoreUserButton = !!(
+    searchedUser.length || selectedUsers.length === users.length
+  );
+  const list = searchedUser.length ? searchedUser : selectedUsers;
   const loadingMarkup = Array.from(new Array(5)).map((_, index) => (
     <UserSkeletonLoading key={index} />
   ));
@@ -170,6 +178,8 @@ function Users() {
           setValue={setValue}
           setSearchedUser={setSearchedUser}
           list={list}
+          setPage={setPage}
+          shouldShownLoadMoreUserButton={shouldShownLoadMoreUserButton}
         />
       </Suspense>
       {modalStatus && (
