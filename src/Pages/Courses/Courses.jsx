@@ -44,21 +44,6 @@ const courseInputsInitialValues = {
   confirmation: false,
 };
 
-const handlePriceFormat = (e, setFieldValue) => {
-  if (e.target.value !== "") {
-    const rawValue = e.target.value;
-    const cleanedValue = rawValue.replace(/,/g, ""); // Remove existing commas
-    const numericValue = parseFloat(cleanedValue);
-
-    if (!isNaN(numericValue)) {
-      const formattedValue = numericValue.toLocaleString(); // Format with commas
-      setFieldValue("price", formattedValue);
-    }
-  } else {
-    setFieldValue("price", 0);
-  }
-};
-
 const courseInputs = [
   {
     name: "title",
@@ -67,10 +52,9 @@ const courseInputs = [
   {
     name: "price",
     props: {
-      type: "text",
+      type: "number",
       label: "قیمت دوره",
       component: TextField,
-      onChange: handlePriceFormat,
     },
   },
   {
@@ -80,11 +64,9 @@ const courseInputs = [
   {
     name: "discount",
     props: {
-      type: "text",
+      type: "number",
       label: "تخفیف دوره %",
       component: TextField,
-      inputMode: "numeric",
-      pattern: "[0-9]+",
     },
   },
   {

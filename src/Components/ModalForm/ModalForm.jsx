@@ -183,7 +183,6 @@ function ModalForm({
                 values,
                 handleBlur,
                 handleChange,
-                setFieldValue,
               }) => (
                 <Form>
                   <Stack spacing={1}>
@@ -218,15 +217,6 @@ function ModalForm({
                               <Field name={name} {...props} />
                               <ErrorMessageComponent name={name} />
                             </Fragment>
-                          );
-                        case "price":
-                          return (
-                            <Field
-                              key={name}
-                              name={name}
-                              {...props}
-                              onChange={(e) => props.onChange(e, setFieldValue)}
-                            />
                           );
                         default:
                           return <Field key={name} name={name} {...props} />;
