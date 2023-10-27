@@ -10,7 +10,7 @@ import { createCategoryInServer } from "../../Redux/features/categories/category
 import {
   createCourseInTheServer,
   getCoursesFromServer,
-  setDiscount
+  setDiscount,
 } from "../../Redux/features/courses/courses";
 
 //components
@@ -140,7 +140,11 @@ const discountInput = [
 ];
 
 const discountInputValidation = yup.object().shape({
-  discount: yup.string().required("مقدار تخفیف را وارد کنید(به درصد)"),
+  discount: yup
+    .number()
+    .max(100, "عدد وارد شده خارج از محدوده میباشد")
+    .min(0, "عدد وارد شده خارج از محدوده میباشد")
+    .required("مقدار تخفیف را وارد کنید(به درصد)"),
   confirmation: yup
     .boolean()
     .default(false)
