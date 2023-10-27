@@ -125,7 +125,7 @@ const categoryInputValidation = yup.object().shape({
 const discountInput = [
   {
     name: "discount",
-    props: { type: "text", label: "درصد تخفیف...", component: TextField },
+    props: { type: "number", label: "درصد تخفیف...", component: TextField },
   },
   {
     name: "confirmation",
@@ -170,7 +170,6 @@ function PageActionsButtons() {
           initialValues={courseInputsInitialValues}
           validationSchema={courseInputsValidation}
           submitForm={(data) => {
-            data["price"] = parseInt(data.price.replace(/,/g, ""));
             dispatch(createCourseInTheServer(data));
           }}
         />
